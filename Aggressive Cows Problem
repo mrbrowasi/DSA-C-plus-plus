@@ -1,0 +1,43 @@
+#include <iostream> 
+#include <climits>
+#include <cmath>
+#include <algorithm>   
+#include <vector>
+using namespace std;
+//Aggression Cow problem
+bool ispossible(vector<int>& arr, int n, int c, int mid){ // mid = min allowed distance
+    int cow = 1;
+    int laststallpos = arr[0];
+    for(int i =0 ; i < n; i++){
+        if(arr[i] - laststallpos >= mid){
+            cow++;
+            laststallpos = arr[i];
+        }if(cow == c){
+            return true;
+        }
+    }
+    return false;
+}
+int aggressioncow(vector<int>& arr, int n, int c){
+    sort(arr.begin(), arr.end());
+    int start = 1; // minimum distance = 1;  
+    int end = arr[n-1] - arr[0];
+    int ans = -1;
+    while (start <= end){
+        int mid = start + (end - start) / 2;
+        if(ispossible(arr, n, c, mid)){ // right side
+            start = mid + 1;
+            ans = mid;
+        }else { // left side
+            end = mid - 1; 
+        }
+    }
+    return ans;
+}
+int main(){
+    vector<int> arr = {1,2,8,4,9};
+    int n = arr.size();
+    int c = 3; // number of cows
+    cout << aggressioncow(arr, n, c) << endl;
+    return 0;
+} 
