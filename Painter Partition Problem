@@ -1,0 +1,51 @@
+#include <iostream> 
+#include <climits>
+#include <cmath>
+#include <algorithm>   
+#include <vector>
+using namespace std;
+//Painter partition problem
+bool ispossible(vector<int>& arr, int n, int m, int mid){ // mid = max time allowed
+    int painter = 1;
+    int time = 0;
+    for(int i = 0; i < n; i++){
+        if (arr[i] > mid) return false;
+        if(time + arr[i] <= mid){
+            time += arr[i];
+        }else{
+            painter++;
+            time = arr[i];
+        }
+    }
+    return painter <= m ? true : false;
+}
+int painterpartition(vector<int>& arr, int n, int m){
+    if(m > n){
+        return -1;
+    }
+    int sum = 0;
+    int start = 0;
+    for(int i = 0; i < n; i++){
+        sum +=arr[i];
+        start = max(start, arr[i]);
+    }
+    int end = sum;
+    int ans = -1;
+    while(start <= end ){
+        int mid = start + (end - start) / 2;
+        if(ispossible(arr , n , m , mid)){ // left side
+            ans = mid;
+            end = mid -1;
+        }else{
+            start = mid + 1;
+        }
+    }
+    return ans;
+}
+int main(){
+    vector<int> arr = {40, 30 , 20 , 10};
+    int n = arr.size();
+    int m = 2; // number of painters
+    cout << painterpartition(arr, n, m) << endl;
+    return 0;
+} 
