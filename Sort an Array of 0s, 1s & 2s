@@ -1,0 +1,52 @@
+#include <iostream> 
+#include <climits>
+#include <cmath>
+#include <algorithm>   
+#include <vector>
+using namespace std;
+//Sort an Array of 0s, 1s & 2s 
+/*void sortarray(vector<int> &arr){ // TC = (O(N) + O(N)) SC = O(1)
+    int n = arr.size();
+    int cout0 = 0, cout1 = 0, cout2 = 0;
+    for(int i = 0; i < n; i++){
+        if(arr[i] == 0)cout0++;
+        else if(arr[i] == 1)cout1++;
+        else cout2++;
+    }
+    int index = 0;
+    for(int i = 0; i < cout0; i++){
+        arr[index++] = 0;
+    }
+    for(int i = 0; i < cout1; i++){
+        arr[index++] = 1;
+    }
+    for(int i = 0; i < cout2; i++){ 
+        arr[index++] = 2;
+    }
+    for(int i: arr){
+        cout << i << " ";
+    }
+}*/
+void sortarray(vector<int> &arr){ // Dutch National Flag Algorithm TC = O(N) SC = O(1)
+    int n = arr.size();
+    int mid = 0, low = 0, high = n - 1;
+    while(mid <= high){
+        if(arr[mid] == 0){
+            swap(arr[low], arr[mid]);
+            low++;
+            mid++;
+        }else if(arr[mid] == 1)mid++;
+        else{
+            swap(arr[mid], arr[high]);
+            high--;
+        }
+    }
+    for(int i: arr){
+        cout << i << " ";
+    }
+}
+int main(){
+    vector<int> arr = {0, 1, 2, 0, 1, 2, 1, 0};
+    sortarray(arr);
+    return 0;
+} 
